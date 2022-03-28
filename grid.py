@@ -79,7 +79,24 @@ def reset(event):
         for y in range(1, 300, 60):
             rectangle = drawCanv.create_rectangle(x, y, x + 60, y + 60,\
                 outline = 'black', fill = 'white')
+
+def update_canvas(grid):
+    grid_x = grid.shape[0]
+    grid_y = grid.shape[1]
+
+    #iterates through cells and draws them onto grid.
+    #Might add an offset later so the grid isnt stuck in upper left.
     
+    for x in range(0,grid_x):
+        for y in range(0,grid_y):
+            rectangle = drawCanv.create_rectangle(x*60, y*60, x*60 + 60, y*60 + 60,\
+                outline = 'black', fill = cell_locate(x,y,grid))
+            
+            
+            if grid[x][y] in (1,2,3,4,5,6,7,8):
+                drawCanv.create_text(x*60+30,y*60+30,fill="Black",
+                            text=str(grid[x][y]))
+
 
 root = tk.Tk()
 drawCanv = tk.Canvas(width=300, height=300, bd=0)
@@ -103,12 +120,6 @@ def click_func(event):
     flags, p_grid = grid_func.func((x,y),grid,flags,p_grid)
     update(p_grid)
 
-def update(p_grid):
-    #clear the canvas
-    #go through each cell in grid, draw respective icon onto canvas
-    pass
-
-
 def right_click(event):
     x = floor((event.x) / 60)
     y = floor((event.y) / 60)
@@ -116,7 +127,7 @@ def right_click(event):
     y = min(y, 4)
 
     flags, p_grid = grid_funcs.flag((x,y),grid,flags,p_grid)
-    update(p_grid)
+    update_canvas(p_grid)
 
 def left_click(event):
     x = floor((event.x) / 60)
@@ -125,7 +136,7 @@ def left_click(event):
     y = min(y, 4)
 
     p_grid = grid_funcs.clear((x,y),grid,flags,p_grid)
-    update(p_grid)
+    update_canvas(p_grid)
 
 def middle_click(event): #dont bind yet
     x = floor((event.x) / 60)
@@ -134,5 +145,5 @@ def middle_click(event): #dont bind yet
     y = min(y, 4)
 
     p_grid = grid_funcs.safe_clear((x,y),grid,flags,p_grid)
-    update(p_grid)
+    update_canvas(p_grid)
 '''
