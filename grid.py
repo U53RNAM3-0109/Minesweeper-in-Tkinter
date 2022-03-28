@@ -70,7 +70,7 @@ def colour_check(x, y, colour):
     return False
     
 
-def reset():
+def reset(event):
     global fakeCanv
     fakeCanv = [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
     drawCanv.delete('all')
@@ -133,6 +133,6 @@ def middle_click(event): #dont bind yet
     x = min(x, 4)
     y = min(y, 4)
 
-    p_grid = grid_funcs.clear_all((x,y),grid,flags,p_grid)
+    p_grid = grid_funcs.safe_clear((x,y),grid,flags,p_grid)
     update(p_grid)
 '''

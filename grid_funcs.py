@@ -63,8 +63,23 @@ def clear_all(coord, grid, flags, p_grid):
     return p_grid
 
 
-def 
+def safe_clear(coord, grid, flags, p_grid):
+    total_flags = 0
 
+    #counts number of flags in surrounding cels
+    for i in (-1,0,1):
+            for j in (-1,0,1):
+                if i==0 and j==0:
+                    continue #skips if its the target cell
+                if border_check(grid,coord[0]+i, coord[1]+j):
+                    if flags[coord[0]+i][coord[1]+j]:
+                        total_flags +=1
+
+    #if number of flags is equal to the number in target cell, clear surrounding cells.
+    if total_flags == p_grid[coord[0]][coord[1]]:
+        return clear_all(coord, grid, flags, p_grid)
+    else:
+        return p_grid
 
 
 def end_game():
